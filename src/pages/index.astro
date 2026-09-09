@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PasswordGate from '../components/PasswordGate.astro';
+import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+
+const title = 'Nicolas Runtz';
+const description = "Nicolas Runtz's personal website.";
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Nicolas Runtz',
+  url: new URL(Astro.url.pathname, Astro.site).toString(),
+};
+---
+
+<BaseLayout title={title} description={description}>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  </Fragment>
+
+  <main class="flex min-h-screen flex-col items-center justify-center gap-8 px-4 py-16">
+    <PasswordGate />
+    <YouTubeEmbed videoId="a3lcGnMhvsA" title="Featured video" />
+  </main>
+</BaseLayout>

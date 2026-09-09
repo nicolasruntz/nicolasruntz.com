@@ -1,0 +1,21 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entry = await getEntry('pages', 'ap-automation-software');
+if (!entry) {
+  throw new Error('Missing content entry: pages/ap-automation-software');
+}
+
+const { title, description, noindex } = entry.data;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <main class="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-6 px-4 py-16">
+    <h1 class="text-3xl font-semibold text-slate-900">{title}</h1>
+    <div class="space-y-4 text-slate-700 [&>p]:leading-relaxed">
+      <Content />
+    </div>
+  </main>
+</BaseLayout>
