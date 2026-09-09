@@ -80,10 +80,10 @@ float fbm(vec2 p) {
 // Centreline: rises to the right, with two inflections so it never reads as
 // a plain wave.
 float pathY(float x, float phase, float t) {
-  float base = mix(0.32, 0.92, smoothstep(-0.10, 1.05, x));
-  base += 0.095 * sin(x * 2.5  + t * 0.085 + phase);
-  base += 0.040 * sin(x * 5.7  - t * 0.115 + phase * 1.7);
-  base += 0.015 * sin(x * 10.5 + t * 0.061 + phase * 2.3);
+  float base = mix(0.64, 1.02, smoothstep(-0.10, 1.05, x));
+  base += 0.075 * sin(x * 2.5  + t * 0.085 + phase);
+  base += 0.030 * sin(x * 5.7  - t * 0.115 + phase * 1.7);
+  base += 0.012 * sin(x * 10.5 + t * 0.061 + phase * 2.3);
   return base;
 }
 
@@ -112,8 +112,8 @@ vec4 ribbon(vec2 uv, float phase, float widthK, float t, float seed) {
 
   // Pink energy travelling along the ribbon: a streak crossing it, never a
   // mass sitting on it.
-  float energy = smoothstep(0.28, 0.98, sin(uv.x * 3.4 - t * 0.18 + across * 1.2 + n * 2.2));
-  col = mix(col, uPink, 0.62 * energy * (0.42 + 0.58 * (1.0 - aa)));
+  float energy = smoothstep(0.34, 0.96, sin(uv.x * 3.4 - t * 0.18 + across * 1.2 + n * 2.2));
+  col = mix(col, uPink, 0.94 * energy * (0.55 + 0.45 * (1.0 - aa)));
 
   // Directional lines following the curve. Frequency and brightness are
   // noise-modulated so they never fall into a visible repeat.
@@ -139,18 +139,18 @@ void main() {
 
   // Mobile is framed on its own terms, not scaled down: the ribbon sits
   // higher and flatter so it stays clear of the copy.
-  if (uMobile > 0.5) uv.y = (uv.y - 0.74) * 1.15 + 0.62;
+  if (uMobile > 0.5) uv.y = (uv.y - 0.80) * 1.20 + 0.78;
 
   vec4 l1 = ribbon(uv, 0.0, 1.00, t, 0.0);
   col = mix(col, l1.rgb, l1.a);
 
   if (uLayers > 1.5) {
-    vec4 l2 = ribbon(uv + vec2(0.0, 0.055), 1.35, 0.68, t, 3.1);
+    vec4 l2 = ribbon(uv - vec2(0.0, 0.050), 1.35, 0.68, t, 3.1);
     col = mix(col, l2.rgb, l2.a * 0.72);
   }
 
   if (uLayers > 2.5) {
-    vec4 l3 = ribbon(uv - vec2(0.0, 0.072), 2.60, 0.42, t, 6.7);
+    vec4 l3 = ribbon(uv - vec2(0.0, 0.105), 2.60, 0.42, t, 6.7);
     col = mix(col, l3.rgb, l3.a * 0.55);
   }
 
@@ -205,6 +205,9 @@ function compile(gl: WebGLRenderingContext, type: number, src: string): WebGLSha
 export default function RibbonBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [failed, setFailed] = useState(false);
+  // Flipped after the first frame draws: the boot-time gradient leaves and
+  // the canvas fades in over plain off-white.
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -308,9 +311,11 @@ export default function RibbonBackground() {
       // composition, no loop, no repaint.
       clock = 12;
       draw();
+      setReady(true);
     } else {
       const minFrame = lowPower ? 1000 / 30 : 0;
       let lastFrame = 0;
+      let drawn = false;
 
       const loop = (now: number) => {
         raf = requestAnimationFrame(loop);
@@ -326,6 +331,10 @@ export default function RibbonBackground() {
         if (prev) clock += Math.min((now - prev) / 1000, 0.1);
         prev = now;
         draw();
+        if (!drawn) {
+          drawn = true;
+          setReady(true);
+        }
       };
       raf = requestAnimationFrame(loop);
     }
@@ -369,10 +378,10 @@ export default function RibbonBackground() {
   }, []);
 
   return (
-    <div class="hp-bg" aria-hidden="true">
-      {/* Painted immediately, under the canvas: no flash before WebGL is
-          ready, and the whole background if it never is. */}
-      <div class="hp-bg__static" />
+    <div class="hp-bg" aria-hidden="true" data-ready={ready || failed ? '' : undefined}>
+      {/* Painted before the canvas has a frame, and only then: it shares the
+          mask with what sits above it, and shows through the fade. */}
+      {!ready && !failed && <div class="hp-bg__static" />}
       {/* Only fetched when there is no WebGL to fetch it for: a real frame of
           the ribbon beats the gradient approximation underneath. */}
       {failed && (
@@ -387,7 +396,6 @@ export default function RibbonBackground() {
       )}
       {!failed && <canvas ref={canvasRef} class="hp-bg__canvas" />}
       <div class="hp-bg__dots" />
-      <div class="hp-bg__veil" />
     </div>
   );
 }

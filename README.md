@@ -95,15 +95,20 @@ Performance et accessibilité :
 - Cadrage propre au mobile — le ruban remonte au-dessus de la zone de texte
   plutôt que d'être une réduction du desktop.
 
-**La zone de respiration** derrière la phrase et le champ est un voile blanc
-à rayons fixes (700 × 290 px), pas en pourcentages : le bloc de texte a une
-largeur fixe, donc une ellipse relative au viewport se rétracte justement sur
-les écrans étroits où le ruban en est le plus proche. Contraste mesuré du
-texte sur le fond animé : de 10:1 à 11,3:1 entre 390 px et 1440 px.
+**Le ruban ne passe jamais sur le texte.** La page est une grille à deux
+zones : le ruban occupe la bande supérieure (40 svh) et se dissout dans le
+blanc-gris par un `mask-image` avant que la zone de contenu ne commence ;
+la phrase et le champ sont centrés dans la zone du dessous. Il n'y a donc
+plus de voile blanc à doser — contraste mesuré du texte sur le fond :
+11,4:1 à toutes les largeurs, soit celui du Rich Blue sur le blanc-gris nu.
+Le dégradé CSS d'amorçage disparaît dès la première image WebGL (le canvas
+arrive en fondu) : partageant le masque avec le canvas, il transparaissait
+dans la zone de fondu comme une tache grise.
 
-**Le champ de passphrase** (`PasswordGate.astro`) est une pilule givrée sur le
-ruban, avec label flottant en CSS pur (`:placeholder-shown`, aucun script) et
-bouton circulaire. La vérification est **uniquement côté client** : ce n'est
+**Le champ de passphrase** (`PasswordGate.astro`) est une pilule givrée avec
+icône, placeholder statique, label hors écran pour les lecteurs d'écran, et
+bouton circulaire. Pas de label flottant : dans une pilule avec icône en tête,
+il laissait l'icône échouée entre le label remonté et le texte saisi. La vérification est **uniquement côté client** : ce n'est
 pas un mécanisme de sécurité, juste un aiguillage. La valeur attendue est
 `lazarus` (insensible à la casse et aux espaces) et redirige vers
 `/ap-automation-software/`. **En cas d'erreur, rien ne s'affiche** : pas de
