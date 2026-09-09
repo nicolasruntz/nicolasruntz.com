@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PasswordGate from '../components/PasswordGate.astro';
-import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 
 const title = 'Nicolas Runtz';
 const description = "Nicolas Runtz's personal website.";
@@ -19,8 +18,58 @@ const personJsonLd = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
   </Fragment>
 
-  <main class="flex min-h-screen flex-col items-center justify-center gap-8 px-4 py-16">
+  <div class="gate-backdrop">
     <PasswordGate />
-    <YouTubeEmbed videoId="a3lcGnMhvsA" title="Featured video" />
-  </main>
+  </div>
 </BaseLayout>
+
+<style>
+  .gate-backdrop {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    position: relative;
+
+    background:
+      radial-gradient(circle at 20% 20%, rgba(225, 218, 255, 0.45), transparent 28%),
+      radial-gradient(circle at 85% 80%, rgba(235, 230, 255, 0.55), transparent 30%),
+      #fafafa;
+  }
+
+  /* Cercle décoratif en haut à gauche */
+  .gate-backdrop::before {
+    content: '';
+
+    position: fixed;
+
+    width: 420px;
+    height: 420px;
+
+    border: 1px solid rgba(120, 110, 180, 0.1);
+    border-radius: 50%;
+
+    top: -230px;
+    left: -130px;
+  }
+
+  /* Cercle décoratif en bas à droite */
+  .gate-backdrop::after {
+    content: '';
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid rgba(120, 110, 180, 0.08);
+    border-radius: 50%;
+
+    bottom: -300px;
+    right: -180px;
+  }
+</style>
