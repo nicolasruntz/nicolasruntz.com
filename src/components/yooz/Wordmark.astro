@@ -1,0 +1,52 @@
+---
+/**
+ * Typographic stand-in for the Yooz logo lockup.
+ *
+ * No logo files ship with the design-system bundle (`assets/logo/` is
+ * referenced by the Logo component but was never supplied), so the mark is
+ * set in the brand face rather than faked as an image. Swap this for the
+ * real SVG lockup the moment it lands in `public/`.
+ *
+ * Lockups are full colour or all Grey-10 — never mixed.
+ */
+interface Props {
+  mode?: 'color' | 'white';
+  height?: number;
+}
+
+const { mode = 'color', height = 30 } = Astro.props;
+---
+
+<span
+  class:list={['yz-wordmark', `is-${mode}`]}
+  style={`font-size:${height}px`}
+  aria-label="Yooz"
+  role="img"
+>
+  yooz<span class="dot">.</span>
+</span>
+
+<style>
+  .yz-wordmark {
+    display: inline-block;
+
+    font-family: var(--font-sans);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.04em;
+    line-height: 1;
+
+    user-select: none;
+  }
+
+  .is-color {
+    color: var(--yz-rich-blue);
+  }
+
+  .is-color .dot {
+    color: var(--yz-pink);
+  }
+
+  .is-white {
+    color: var(--yz-grey-10);
+  }
+</style>

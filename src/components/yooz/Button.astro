@@ -1,0 +1,143 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'inverse';
+  size?: 'sm' | 'md' | 'lg';
+  iconStart?: string;
+  iconEnd?: string;
+  href?: string;
+  type?: 'button' | 'submit';
+  fullWidth?: boolean;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  iconStart,
+  iconEnd,
+  href,
+  type = 'button',
+  fullWidth = false,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const iconSize = size === 'sm' ? 16 : 18;
+const classes = ['yz-btn', `is-${variant}`, `is-${size}`, fullWidth && 'is-full']
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Tag class={classes} href={href} type={href ? undefined : type}>
+  {iconStart && <Icon name={iconStart} size={iconSize} />}
+  <slot />
+  {iconEnd && <Icon name={iconEnd} size={iconSize} />}
+</Tag>
+
+<style>
+  /* Buttons are fully pill-shaped, SemiBold, and never fade on hover —
+     hover darkens the fill instead. Press is scale(0.98), no ripple. */
+  .yz-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    font-family: var(--font-sans);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-instant) var(--ease-standard);
+  }
+
+  .yz-btn.is-full {
+    width: 100%;
+  }
+
+  .yz-btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Focus is always visible: Rich Blue border plus the 3px Pink ring. */
+  .yz-btn:focus-visible {
+    outline: none;
+    border-color: var(--yz-rich-blue);
+    box-shadow: var(--focus-ring);
+  }
+
+  .is-sm {
+    font-size: 13px;
+    padding: 0 16px;
+    height: 34px;
+  }
+  .is-md {
+    font-size: 15px;
+    padding: 0 22px;
+    height: 44px;
+  }
+  .is-lg {
+    font-size: 16px;
+    padding: 0 28px;
+    height: 52px;
+  }
+
+  .is-primary {
+    background: var(--accent);
+    color: var(--yz-grey-10);
+  }
+  .is-primary:hover {
+    background: var(--accent-hover);
+  }
+  .is-primary:active {
+    background: var(--accent-press);
+  }
+
+  .is-secondary {
+    background: var(--yz-rich-blue);
+    color: var(--yz-grey-10);
+  }
+  .is-secondary:hover {
+    background: var(--yz-rich-blue-hover);
+  }
+  .is-secondary:active {
+    background: var(--yz-rich-blue-press);
+  }
+
+  /* Outline buttons invert to solid on hover. */
+  .is-outline {
+    background: transparent;
+    color: var(--yz-rich-blue);
+    border-color: var(--yz-rich-blue);
+  }
+  .is-outline:hover {
+    background: var(--yz-rich-blue);
+    color: var(--yz-grey-10);
+  }
+
+  .is-ghost {
+    background: transparent;
+    color: var(--yz-rich-blue);
+  }
+  .is-ghost:hover {
+    background: var(--yz-rich-blue-wash);
+  }
+
+  .is-inverse {
+    background: var(--yz-grey-10);
+    color: var(--yz-rich-blue);
+  }
+  .is-inverse:hover {
+    background: var(--yz-grey-20);
+  }
+</style>

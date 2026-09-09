@@ -1,0 +1,72 @@
+---
+// Claims are quantified and rendered large — separator and plus sign
+// included, never rounded into vagueness.
+const stats = [
+  ['5,000+', 'Customers'],
+  ['300,000+', 'Users worldwide'],
+  ['60,000,000+', 'Documents processed'],
+];
+---
+
+<section class="proof">
+  <div class="inner">
+    {
+      stats.map(([value, label]) => (
+        <div class="stat">
+          <div class="value">{value}</div>
+          <div class="label">{label}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .proof {
+    background-color: var(--yz-grey-20);
+    background-image: var(--pattern-large);
+    background-size: var(--pattern-tile-lg) var(--pattern-tile-lg);
+
+    padding: 56px var(--gutter) 96px;
+  }
+
+  .inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+
+    border-top: 1px solid var(--yz-grey-50);
+    padding-top: 40px;
+  }
+
+  .value {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-light);
+    letter-spacing: var(--ls-h3);
+    line-height: 1.1;
+    color: var(--yz-rich-blue);
+  }
+
+  .label {
+    margin-top: 8px;
+
+    font-size: var(--fs-paragraph-sm-bold);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  @media (max-width: 860px) {
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .value {
+      font-size: 36px;
+    }
+  }
+</style>

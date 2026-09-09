@@ -1,0 +1,59 @@
+---
+import Button from './Button.astro';
+---
+
+<section class="cta">
+  <div class="inner">
+    <h2>Ready to propel the automation of your purchases and invoices into the future?</h2>
+
+    <div class="actions">
+      <Button size="lg" href="#">Schedule a demo</Button>
+      <Button size="lg" variant="outline" href="#">Test your performance</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background-color: var(--yz-grey-20);
+    background-image: var(--pattern-large);
+    background-size: var(--pattern-tile-lg) var(--pattern-tile-lg);
+    color: var(--text);
+
+    padding: var(--section-y) var(--gutter);
+  }
+
+  .inner {
+    max-width: var(--container-narrow);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  h2 {
+    margin: 0;
+
+    font-size: 56px;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    margin-top: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .cta {
+      padding-block: 64px;
+    }
+
+    h2 {
+      font-size: 36px;
+    }
+  }
+</style>

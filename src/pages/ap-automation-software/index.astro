@@ -1,21 +1,82 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/yooz.css';
 
+import Nav from '../../components/yooz/Nav.astro';
+import Hero from '../../components/yooz/Hero.astro';
+import ProofBar from '../../components/yooz/ProofBar.astro';
+import FlowSection from '../../components/yooz/FlowSection.astro';
+import CalloutStrips from '../../components/yooz/CalloutStrips.astro';
+import ScoreSection from '../../components/yooz/ScoreSection.astro';
+import CTASection from '../../components/yooz/CTASection.astro';
+import Footer from '../../components/yooz/Footer.astro';
+
+// The page's metadata still comes from the content collection; the layout
+// itself is composed from the design-system sections below.
 const entry = await getEntry('pages', 'ap-automation-software');
 if (!entry) {
   throw new Error('Missing content entry: pages/ap-automation-software');
 }
 
 const { title, description, noindex } = entry.data;
-const { Content } = await render(entry);
 ---
 
 <BaseLayout title={title} description={description} noindex={noindex}>
-  <main class="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-6 px-4 py-16">
-    <h1 class="text-3xl font-semibold text-slate-900">{title}</h1>
-    <div class="space-y-4 text-slate-700 [&>p]:leading-relaxed">
-      <Content />
-    </div>
-  </main>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
+    />
+  </Fragment>
+
+  <div class="yz-page" id="top">
+    <Nav />
+    <main>
+      <Hero />
+      <ProofBar />
+      <FlowSection />
+      <CalloutStrips />
+      <ScoreSection />
+      <CTASection />
+    </main>
+    <Footer />
+  </div>
 </BaseLayout>
+
+<style is:global>
+  /* The design system owns this page end to end: Noto Sans throughout, Rich
+     Blue on the brand white (never pure #FFFFFF). */
+  .yz-page {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .yz-page ::selection {
+    background: var(--yz-pink);
+    color: var(--yz-grey-10);
+  }
+
+  .yz-page :focus-visible {
+    outline: 2px solid var(--yz-rich-blue);
+    outline-offset: 2px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>

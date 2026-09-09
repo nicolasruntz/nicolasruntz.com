@@ -30,6 +30,13 @@ src/
   components/
     PasswordGate.astro        # champ mot de passe + vérification client
     YouTubeEmbed.astro        # iframe YouTube responsive, chargement différé
+    yooz/                     # sections et primitives du design system Yooz
+      Nav.astro  Hero.astro  ProofBar.astro  FlowSection.astro
+      CalloutStrips.astro  ScoreSection.astro  CTASection.astro
+      Footer.astro  Button.astro  Icon.astro  ZFrame.astro  Wordmark.astro
+  styles/
+    global.css                # entrée Tailwind
+    yooz.css                  # tokens du design system Yooz
   pages/
     index.astro                # page d'accueil "/"
     ap-automation-software/
@@ -46,8 +53,8 @@ en place pour grandir : la collection `pages` (définie dans
 `src/content.config.ts`) charge tous les fichiers `.md`/`.mdx` du dossier
 `src/content/pages/` via le `glob` loader d'Astro. Chaque entrée a un
 schéma Zod (`title`, `description`, `noindex`). La route
-`src/pages/ap-automation-software/index.astro` lit son contenu depuis cette
-collection (`getEntry` + `render`) plutôt que de l'écrire en dur — pour
+`src/pages/ap-automation-software/index.astro` lit ses métadonnées depuis
+cette collection (`getEntry`) plutôt que de les écrire en dur — pour
 ajouter une nouvelle page de contenu, il suffit d'ajouter un fichier
 `.md`/`.mdx` dans `src/content/pages/` et une route qui le rend.
 
@@ -64,9 +71,30 @@ vidéo YouTube est intégrée en iframe responsive (`youtube-nocookie.com`,
 
 ### Page "/ap-automation-software/"
 
-Contenu de remplacement ("AP Automation Software"). Cette page porte une
-balise `<meta name="robots" content="noindex, nofollow">` et est exclue du
-sitemap (filtre dans `astro.config.mjs`) ainsi que du `robots.txt`.
+Landing page « Lean Financial Operations » construite avec le **Yooz Design
+System** (refonte de marque de juillet 2025) : nav collante, hero avec le
+cadre en Z et le motif de points, barre de preuves chiffrées, les six étapes
+du purchase-to-pay, panneaux dégradés + bandeau Rich Blue, section Yooz
+Score (jauge + barres de progression), CTA et footer.
+
+- Les tokens (couleurs, typographie, espacements, élévation, motion,
+  motifs) vivent dans `src/styles/yooz.css`, importé par la seule route qui
+  en a besoin ; le reste du site garde Tailwind.
+- Chaque section est un composant `.astro` avec ses styles scopés dans
+  `src/components/yooz/`. Aucun JavaScript client : les états `:hover`,
+  `:focus-visible` et `:active` du kit React d'origine sont rendus en CSS.
+- Noto Sans (300/400/600) et Material Symbols Outlined sont chargés depuis
+  Google Fonts, comme le prescrit le design system.
+- Deux écarts assumés faute d'assets fournis avec le kit : le logo est un
+  **wordmark typographique** (`Wordmark.astro`) et non le vrai SVG, et le
+  `ZFrame` n'affiche que le Z en dégradé — le kit y met une annotation
+  « cut-out hero photograph goes here », qui est un repère d'auteur et non
+  un élément de design. Passer `src` au `ZFrame` dès qu'une photo détourée
+  et étalonnée existe.
+
+Cette page porte une balise `<meta name="robots" content="noindex, nofollow">`
+et est exclue du sitemap (filtre dans `astro.config.mjs`) ainsi que du
+`robots.txt`.
 
 ## Commandes
 

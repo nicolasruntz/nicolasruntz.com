@@ -1,0 +1,237 @@
+---
+import Button from './Button.astro';
+
+const rows: [string, number][] = [
+  ['Purchasing', 70],
+  ['Invoicing', 50],
+  ['Payments', 80],
+  ['Billing', 65],
+  ['Budget', 60],
+  ['KPI & Reporting', 90],
+  ['E-invoicing', 85],
+];
+
+const score = 70;
+const gaugeSize = 148;
+---
+
+<section class="score">
+  <div class="inner">
+    <div class="copy">
+      <span class="badge">Yooz Score</span>
+
+      <h2>Assess the efficiency of your accounting and finance processes in 5 minutes</h2>
+
+      <p>
+        Get a personalised analysis of your automation potential, identify areas for improvement and
+        provide your team with a clear roadmap to boost efficiency.
+      </p>
+
+      <div class="cta">
+        <Button size="lg" href="#">Start your assessment now</Button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="gauge-wrap">
+        <div
+          class="gauge"
+          style={`--deg:${(score / 100) * 360}deg;--size:${gaugeSize}px;--inner:${gaugeSize - 22}px;--num:${gaugeSize * 0.3}px`}
+          role="img"
+          aria-label={`Overall score ${score} out of 100`}
+        >
+          <div class="gauge-inner">{score}</div>
+        </div>
+        <div class="gauge-label">Overall score</div>
+      </div>
+
+      <div class="bars">
+        {
+          rows.map(([label, value]) => (
+            <div class="bar">
+              <div class="bar-head">
+                <span class="bar-label">{label}</span>
+                <span class="bar-value">{value}%</span>
+              </div>
+              <div class="track">
+                <div class="fill" style={`width:${value}%`} />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .score {
+    background: var(--yz-grey-10);
+    color: var(--text);
+    padding: var(--section-y) var(--gutter);
+  }
+
+  .inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+
+    background: var(--yz-rich-blue);
+    color: var(--yz-grey-10);
+
+    font-size: var(--fs-ui-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+    line-height: 1;
+
+    padding: 6px 10px;
+    border-radius: var(--radius-pill);
+  }
+
+  h2 {
+    margin: 20px 0 0;
+
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-light);
+    letter-spacing: var(--ls-h3);
+    line-height: var(--lh-h3);
+  }
+
+  .copy > p {
+    margin: 20px 0 0;
+    max-width: 520px;
+
+    font-size: var(--fs-paragraph);
+    letter-spacing: var(--ls-paragraph);
+    line-height: var(--lh-body-web);
+    color: var(--text-muted);
+  }
+
+  .cta {
+    margin-top: 32px;
+  }
+
+  .card {
+    background: var(--yz-grey-10);
+    border: 1px solid var(--yz-grey-40);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .gauge-wrap {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .gauge {
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+
+    background: conic-gradient(var(--yz-pink) var(--deg), var(--yz-grey-30) 0deg);
+
+    display: grid;
+    place-items: center;
+  }
+
+  .gauge-inner {
+    width: var(--inner);
+    height: var(--inner);
+    border-radius: 50%;
+
+    background: var(--yz-grey-10);
+
+    display: grid;
+    place-items: center;
+
+    font-size: var(--num);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    color: var(--yz-rich-blue);
+  }
+
+  .gauge-label {
+    font-size: var(--fs-ui);
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  .bars {
+    display: grid;
+    gap: 12px;
+  }
+
+  .bar-head {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: var(--fs-ui-sm);
+    margin-bottom: 8px;
+  }
+
+  .bar-label {
+    font-weight: var(--fw-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  .bar-value {
+    color: var(--text-muted);
+  }
+
+  .track {
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--yz-grey-30);
+    overflow: hidden;
+  }
+
+  .fill {
+    height: 100%;
+    background: var(--yz-pink);
+    border-radius: var(--radius-pill);
+  }
+
+  @media (max-width: 1040px) {
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .score {
+      padding-block: 64px;
+    }
+
+    h2 {
+      font-size: 34px;
+    }
+
+    .card {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 24px;
+      justify-items: center;
+    }
+
+    .bars {
+      width: 100%;
+    }
+  }
+</style>

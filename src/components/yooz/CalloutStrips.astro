@@ -1,0 +1,229 @@
+---
+import Icon from './Icon.astro';
+
+const callouts = [
+  [
+    'trending_up',
+    'Highest return on financial operations automation',
+    'Yooz AI gives you the highest level of automation at your fingertips, reshaping industry standards and reducing processing time by up to 80%.',
+  ],
+  [
+    'verified_user',
+    'Most trusted',
+    'Yooz is the stress-free platform that empowers your organization to thrive, trusted by over 300,000+ users worldwide.',
+  ],
+];
+---
+
+<section class="strips">
+  <div class="inner">
+    <div class="row">
+      <!-- Gradients are accent surfaces, not page backgrounds: three-stop,
+           135°, always Pink balanced with Rich Blue plus one secondary. -->
+      <div class="panel">
+        <div class="grain" aria-hidden="true"></div>
+        <div class="panel-body">
+          <h2>Don't settle for anything but the smartest</h2>
+          <p>Get the most intelligent AI-automated purchase to pay solution on the market.</p>
+        </div>
+      </div>
+
+      {
+        callouts.map(([icon, title, body]) => (
+          <article class="callout">
+            <div class="strip" aria-hidden="true" />
+            <div class="callout-body">
+              <Icon name={icon} size={26} />
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="band">
+      <h3>When we built Yooz, we didn't settle either.</h3>
+      <p>
+        Yooz was born in the cloud in 2010, and we haven't slowed down since. With 40% growth per
+        year, we're now active in 44 countries and recognized by the industry's most prestigious
+        awards.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .strips {
+    background: var(--yz-grey-20);
+    color: var(--text);
+    padding: var(--section-y) var(--gutter);
+  }
+
+  .inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .panel {
+    position: relative;
+    overflow: hidden;
+
+    background: var(--gradient-teal-pink);
+    color: var(--yz-grey-10);
+    border-radius: var(--radius-lg);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.1) 1px, transparent 0);
+    background-size: 3px 3px;
+
+    pointer-events: none;
+  }
+
+  .panel-body {
+    position: relative;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 36px;
+  }
+
+  .panel h2 {
+    margin: 0;
+
+    font-size: 40px;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .panel p {
+    margin: 24px 0 0;
+
+    font-size: var(--fs-paragraph);
+    line-height: var(--lh-body-web);
+    opacity: 0.85;
+  }
+
+  .callout {
+    background: var(--yz-grey-10);
+    border: 1px solid var(--yz-grey-40);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  /* Dot pattern, small: 400% tile on Grey-10 at 100% — the callout strip. */
+  .strip {
+    height: 14px;
+
+    background-color: var(--yz-grey-10);
+    background-image: var(--pattern-small);
+    background-size: var(--pattern-tile-sm) var(--pattern-tile-sm);
+  }
+
+  .callout-body {
+    padding: 32px;
+  }
+
+  .callout h3 {
+    margin: 18px 0 0;
+
+    font-size: 28px;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .callout p {
+    margin: 14px 0 0;
+
+    font-size: var(--fs-paragraph-sm-bold);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  /* A Rich Blue slab inside a light page — not an inverted theme. */
+  .band {
+    margin-top: 20px;
+
+    background: var(--yz-rich-blue);
+    color: var(--yz-grey-10);
+    border-radius: var(--radius-lg);
+    padding: 40px 44px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .band h3 {
+    margin: 0;
+
+    font-size: 36px;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .band p {
+    margin: 0;
+
+    font-size: var(--fs-paragraph);
+    line-height: var(--lh-body-web);
+    color: rgba(254, 254, 254, 0.78);
+  }
+
+  @media (max-width: 1040px) {
+    .row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .panel {
+      grid-column: 1 / -1;
+    }
+
+    .band {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .strips {
+      padding-block: 64px;
+    }
+
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .panel h2 {
+      font-size: 32px;
+    }
+
+    .band {
+      padding: 32px 24px;
+    }
+
+    .band h3 {
+      font-size: 28px;
+    }
+  }
+</style>

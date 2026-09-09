@@ -1,0 +1,170 @@
+---
+import Button from './Button.astro';
+import ZFrame from './ZFrame.astro';
+---
+
+<section class="hero">
+  <div class="inner">
+    <div class="copy">
+      <p class="eyebrow">Introducing</p>
+
+      <h1>Lean Financial<br />Operations.</h1>
+
+      <p class="lede">For the most ambitious companies on the planet.</p>
+
+      <p class="body">
+        Yooz is the smartest AI-powered AP automation available anywhere. Use it to cut AP costs,
+        manage risks &amp; eliminate fraud and errors. All while driving growth &amp; profitability.
+      </p>
+
+      <form class="demo" onsubmit="return false;">
+        <label class="sr-only" for="hero-email">Your work email</label>
+        <input id="hero-email" type="email" placeholder="Your work email" autocomplete="email" />
+        <Button size="lg" iconEnd="arrow_forward" type="submit">Schedule a demo</Button>
+      </form>
+    </div>
+
+    <ZFrame height={460} />
+  </div>
+</section>
+
+<style>
+  /* Dot pattern, large: 600% tile on Grey-20 at 20%. */
+  .hero {
+    background-color: var(--yz-grey-20);
+    background-image: var(--pattern-large);
+    background-size: var(--pattern-tile-lg) var(--pattern-tile-lg);
+
+    padding: 96px var(--gutter) 0;
+  }
+
+  .inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  /* Small uppercase is a micro-label device only — never running copy. */
+  .eyebrow {
+    margin: 0 0 20px;
+
+    font-size: 14px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--yz-pink);
+  }
+
+  h1 {
+    margin: 0;
+
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-light);
+    letter-spacing: var(--ls-h1);
+    line-height: var(--lh-h1);
+    color: var(--text);
+  }
+
+  .lede {
+    margin: 24px 0 0;
+    max-width: 520px;
+
+    font-size: var(--fs-paragraph-lg);
+    font-weight: var(--fw-light);
+    letter-spacing: var(--ls-paragraph-lg);
+    line-height: var(--lh-paragraph-lg);
+    color: var(--text);
+  }
+
+  .body {
+    margin: 20px 0 0;
+    max-width: 540px;
+
+    font-size: var(--fs-paragraph);
+    letter-spacing: var(--ls-paragraph);
+    line-height: var(--lh-body-web);
+    color: var(--text-muted);
+  }
+
+  .demo {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    margin-top: 32px;
+    max-width: 540px;
+  }
+
+  .demo input {
+    flex: 1;
+    min-width: 0;
+    height: 52px;
+
+    font-family: var(--font-sans);
+    font-size: var(--fs-ui-lg);
+    font-weight: var(--fw-regular);
+    letter-spacing: -0.01em;
+    color: var(--text);
+
+    background: var(--yz-grey-10);
+    border: 1px solid var(--yz-grey-50);
+    border-radius: var(--radius-md);
+    padding: 0 14px;
+    outline: none;
+
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      box-shadow var(--duration-fast) var(--ease-standard);
+  }
+
+  .demo input:focus {
+    border-color: var(--yz-rich-blue);
+    box-shadow: var(--focus-ring);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 1040px) {
+    .inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    h1 {
+      font-size: 64px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-top: 56px;
+    }
+
+    h1 {
+      font-size: 44px;
+    }
+
+    .lede {
+      font-size: 19px;
+    }
+
+    .demo {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
