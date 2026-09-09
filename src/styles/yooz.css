@@ -1,0 +1,271 @@
+/*
+ * Yooz Design System — tokens.
+ *
+ * Flattened from the design-system bundle's `tokens/` directory
+ * (fonts, colors, typography, spacing, elevation, motion, patterns).
+ * Values are verbatim from the brand guidelines; do not round them.
+ *
+ * Scoped to the pages that opt in by importing this file — the rest of
+ * the site keeps its own (Tailwind) styling.
+ */
+
+/* ── fonts ──────────────────────────────────────────────────────────── */
+
+:root {
+  --font-sans: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-icon: 'Material Symbols Outlined';
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+}
+
+/* Material Symbols Outlined, weight 300, matching the Light-led type.
+   Never hand-roll SVG and never substitute another icon library. */
+.yz-icon {
+  font-family: var(--font-icon);
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* ── colors ─────────────────────────────────────────────────────────── */
+
+:root {
+  /* Primitives — brand guidelines p.12 / p.15. */
+  --yz-rich-blue: #14354e;
+  --yz-pink: #e0185e;
+  --yz-teal: #00bfa5;
+  --yz-blue: #006aff;
+  --yz-grey-100: #3c4857;
+  --yz-grey-90: #46515e;
+  --yz-grey-80: #616c7a;
+  --yz-grey-70: #a0a7af;
+  --yz-grey-60: #cccdd2;
+  --yz-grey-50: #dedee0;
+  --yz-grey-40: #e6e6e6;
+  --yz-grey-30: #eaeaea;
+  --yz-grey-20: #f5f5f5;
+  --yz-grey-10: #fefefe; /* the brand white — never pure #FFFFFF */
+
+  /* Tints derived from the primitives, for interaction states only. */
+  --yz-rich-blue-hover: #0e2739;
+  --yz-rich-blue-press: #091c29;
+  --yz-pink-hover: #c2144f;
+  --yz-pink-press: #a31041;
+  --yz-pink-wash: #fdedf3;
+  --yz-teal-wash: #e6f9f6;
+  --yz-blue-wash: #e6f0ff;
+  --yz-rich-blue-wash: #edf1f4;
+
+  /* Semantic — "Color Scheme 1" is the only documented scheme.
+     There is no dark mode: dark treatments are Rich Blue slabs inside a
+     light page, not an inverted theme. */
+  --text: var(--yz-rich-blue);
+  --text-muted: var(--yz-grey-80);
+  --text-subtle: var(--yz-grey-70);
+  --text-inverse: var(--yz-grey-10);
+  --text-accent: var(--yz-pink);
+  --text-link: var(--yz-pink);
+
+  --background: var(--yz-grey-10);
+  --surface: var(--yz-grey-10);
+  --surface-sunken: var(--yz-grey-20);
+  --surface-raised: var(--yz-grey-10);
+  --surface-inverse: var(--yz-rich-blue);
+  --surface-accent: var(--yz-pink);
+
+  --border: var(--yz-rich-blue);
+  --border-subtle: var(--yz-grey-40);
+  --border-strong: var(--yz-grey-60);
+  --border-focus: var(--yz-pink);
+
+  --accent: var(--yz-pink);
+  --accent-hover: var(--yz-pink-hover);
+  --accent-press: var(--yz-pink-press);
+
+  /* Status — mapped onto existing primitives so nothing new enters the brand. */
+  --status-success: var(--yz-teal);
+  --status-success-wash: var(--yz-teal-wash);
+  --status-info: var(--yz-blue);
+  --status-info-wash: var(--yz-blue-wash);
+  --status-critical: var(--yz-pink);
+  --status-critical-wash: var(--yz-pink-wash);
+  --status-neutral: var(--yz-grey-80);
+  --status-neutral-wash: var(--yz-grey-20);
+
+  /* Gradients — three-stop, 135°, always Pink balanced with Rich Blue
+     plus one secondary. Accent surfaces, never page backgrounds. */
+  --gradient-blue-pink: linear-gradient(135deg, #006aff 0%, #14354e 50%, #e0185e 100%);
+  --gradient-teal-pink: linear-gradient(135deg, #00bfa5 0%, #14354e 50%, #e0185e 100%);
+  --gradient-pink-teal: linear-gradient(135deg, #e0185e 0%, #14354e 50%, #00bfa5 100%);
+  --gradient-image-map: linear-gradient(160deg, #14354e 0%, #4a1d45 55%, #e0185e 100%);
+}
+
+/* ── typography ─────────────────────────────────────────────────────── */
+
+:root {
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+
+  --fs-display: 120px;
+  --ls-display: -0.02em;
+  --lh-display: 0.9;
+  --fw-display: var(--fw-light);
+
+  --fs-h1: 84px;
+  --ls-h1: -0.02em;
+  --lh-h1: 1.1;
+  --fw-h1: var(--fw-light);
+
+  --fs-h2: 64px;
+  --ls-h2: -0.02em;
+  --lh-h2: 1;
+  --fw-h2: var(--fw-light);
+
+  --fs-h3: 48px;
+  --ls-h3: -0.02em;
+  --lh-h3: 1.1;
+  --fw-h3: var(--fw-light);
+
+  --fs-h4: 32px;
+  --ls-h4: -0.02em;
+  --lh-h4: 1.2;
+  --fw-h4: var(--fw-light);
+
+  --fs-h5: 24px;
+  --ls-h5: -0.02em;
+  --lh-h5: 1.2;
+  --fw-h5: var(--fw-light);
+
+  --fs-paragraph-lg: 22px;
+  --ls-paragraph-lg: -0.02em;
+  --lh-paragraph-lg: 1.4;
+  --fw-paragraph-lg: var(--fw-light);
+
+  --fs-paragraph: 17px;
+  --ls-paragraph: -0.01em;
+  --lh-paragraph: 0.9;
+  --fw-paragraph: var(--fw-regular);
+
+  --fs-paragraph-sm-bold: 16px;
+  --ls-paragraph-sm-bold: -0.01em;
+  --lh-paragraph-sm-bold: 1;
+  --fw-paragraph-sm-bold: var(--fw-semibold);
+
+  --fs-list-item: 16px;
+  --ls-list-item: -0.02em;
+  --lh-list-item: 1.4;
+  --fw-list-item: var(--fw-light);
+
+  --fs-tagline: 14px;
+  --ls-tagline: -0.02em;
+  --lh-tagline: 1.4;
+  --fw-tagline: var(--fw-light);
+
+  /* The documented 90% leading on 17px Paragraph is a single-line spec and
+     collapses in running copy — use this for anything multi-line. */
+  --lh-body-web: 1.55;
+
+  /* UI sizes: the documented scale bottoms out at 14px, too coarse for
+     dense table and form surfaces. */
+  --fs-ui-lg: 16px;
+  --fs-ui: 14px;
+  --fs-ui-sm: 13px;
+  --fs-ui-xs: 12px;
+  --lh-ui: 1.35;
+}
+
+/* ── spacing ────────────────────────────────────────────────────────── */
+
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+  --space-40: 160px;
+
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  --container-max: 1280px;
+  --container-narrow: 820px;
+  --gutter: 24px;
+  --section-y: 96px;
+  --section-y-lg: 160px;
+}
+
+/* ── elevation ──────────────────────────────────────────────────────── */
+
+:root {
+  /* Rich Blue tinted, never neutral black. Nothing between a card and the
+     page needs a shadow. */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px rgba(20, 53, 78, 0.06);
+  --shadow-md: 0 2px 8px rgba(20, 53, 78, 0.08);
+  --shadow-lg: 0 12px 32px rgba(20, 53, 78, 0.1);
+  --shadow-overlay: 0 24px 64px rgba(20, 53, 78, 0.18);
+  --focus-ring: 0 0 0 3px rgba(224, 24, 94, 0.28);
+}
+
+/* ── motion ─────────────────────────────────────────────────────────── */
+
+:root {
+  --ease-standard: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Short and unshowy: state changes, layout/overlays, progress fills.
+     No bounce, no spring, no parallax. */
+  --duration-instant: 0ms;
+  --duration-fast: 140ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}
+
+/* ── patterns ───────────────────────────────────────────────────────── */
+
+:root {
+  --pattern-dot-size: 1px;
+  --pattern-tile-lg: 6px;
+  --pattern-tile-sm: 4px;
+  --pattern-large: radial-gradient(circle at 1px 1px, rgba(20, 53, 78, 0.2) 1px, transparent 0);
+  --pattern-small: radial-gradient(circle at 1px 1px, rgba(20, 53, 78, 1) 1px, transparent 0);
+}
