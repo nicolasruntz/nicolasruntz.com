@@ -93,15 +93,13 @@
 }
 
 .ap-pickers {
+  position: relative;
+
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
   min-width: 0;
-}
-
-.ap-picker {
-  position: relative;
 }
 
 .ap-picker__trigger {
@@ -163,7 +161,10 @@
   z-index: 60;
 
   box-sizing: border-box;
-  width: min(560px, calc(100vw - 48px));
+  /* The group starts ~72px in from the viewport edge on a laid-out header;
+     the reserve keeps the panel clear of both edges at every width, and of
+     the scrollbar 100vw ignores. */
+  width: min(560px, calc(100vw - 120px));
 
   background: var(--yz-grey-10);
   border: 1px solid var(--yz-grey-40);
@@ -173,12 +174,6 @@
   padding: 22px;
 
   animation: yz-fade-up var(--duration-base) var(--ease-standard);
-}
-
-/* The system panel anchors right so it cannot overflow the viewport. */
-.ap-picker__panel--right {
-  left: auto;
-  right: 0;
 }
 
 .ap-picker__label {

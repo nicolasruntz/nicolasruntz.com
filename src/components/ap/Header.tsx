@@ -151,7 +151,7 @@ export default function Header({
             </button>
 
             {open === 'erp' && (
-              <div class="ap-picker__panel ap-picker__panel--right">
+              <div class="ap-picker__panel">
                 <p class="ap-picker__label" id="ap-erp-label">
                   Pick your ERP, accounting system or DMS
                 </p>
