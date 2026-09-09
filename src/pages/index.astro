@@ -39,6 +39,10 @@ const personJsonLd = {
       radial-gradient(circle at 20% 20%, rgba(225, 218, 255, 0.45), transparent 28%),
       radial-gradient(circle at 85% 80%, rgba(235, 230, 255, 0.55), transparent 30%),
       #fafafa;
+    background-size:
+      180% 180%,
+      180% 180%,
+      auto;
   }
 
   /* Cercle décoratif en haut à gauche */
@@ -71,5 +75,50 @@ const personJsonLd = {
 
     bottom: -300px;
     right: -180px;
+  }
+
+  /* Petit effet dynamique : dégradés qui dérivent doucement,
+     cercles qui pulsent très légèrement. Désactivé si l'utilisateur
+     préfère un mouvement réduit. */
+  @media (prefers-reduced-motion: no-preference) {
+    .gate-backdrop {
+      animation: drift 26s ease-in-out infinite;
+    }
+
+    .gate-backdrop::before {
+      animation: pulse 14s ease-in-out infinite;
+    }
+
+    .gate-backdrop::after {
+      animation: pulse 18s ease-in-out infinite reverse;
+    }
+  }
+
+  @keyframes drift {
+    0%,
+    100% {
+      background-position:
+        20% 20%,
+        85% 80%,
+        0 0;
+    }
+    50% {
+      background-position:
+        30% 30%,
+        75% 70%,
+        0 0;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.06);
+      opacity: 0.6;
+    }
   }
 </style>
