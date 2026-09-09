@@ -69,7 +69,7 @@ export default function Header({
     <header class="ap-header">
       <div class="ap-header__inner">
         <a href="#top" class="ap-header__logo">
-          <img src="/yooz/yooz-mark-color.svg" alt="Yooz" width="24" height="24" />
+          <img src="/yooz/yooz-mark-color.svg" alt="Yooz" width="30" height="30" />
         </a>
 
         <div class="ap-pickers" ref={pickersRef}>

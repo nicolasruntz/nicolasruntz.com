@@ -68,7 +68,7 @@
 .ap-header__inner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 8px 24px;
+  padding: 12px 24px;
 
   display: flex;
   align-items: center;
@@ -83,7 +83,7 @@
 }
 
 .ap-header__logo img {
-  height: 24px;
+  height: 30px;
   width: auto;
   display: block;
 }
@@ -116,7 +116,7 @@
   background: var(--yz-grey-20);
   color: var(--yz-rich-blue);
 
-  padding: 7px 12px;
+  padding: 9px 14px;
 
   cursor: pointer;
   font-family: inherit;
@@ -138,7 +138,7 @@
 }
 
 .ap-picker__trigger .yz-icon {
-  font-size: 17px;
+  font-size: 18px;
   flex: 0 0 auto;
   opacity: 0.8;
 }
@@ -148,7 +148,7 @@
 }
 
 .ap-picker__value {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 
   white-space: nowrap;
@@ -301,13 +301,13 @@
   background: var(--yz-pink);
   color: var(--yz-grey-10);
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-family: inherit;
   text-decoration: none;
   cursor: pointer;
 
-  padding: 9px 18px;
+  padding: 11px 22px;
 
   transition: background var(--duration-fast) var(--ease-standard);
 }
@@ -444,11 +444,11 @@
 
   max-width: 1280px;
   margin: 0 auto;
-  padding: 40px 24px 52px;
+  padding: 76px 24px 64px;
 
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 44px;
+  gap: 56px;
   align-items: start;
 }
 
@@ -463,8 +463,8 @@
 
   border: 1px solid rgba(254, 254, 254, 0.28);
   border-radius: var(--radius-pill);
-  padding: 5px 13px 5px 9px;
-  margin-bottom: 16px;
+  padding: 6px 16px 6px 10px;
+  margin-bottom: 26px;
 }
 
 .ap-hero__eyebrow-dot {
@@ -477,21 +477,18 @@
 }
 
 .ap-hero__eyebrow-text {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--yz-grey-10);
 }
 
 .ap-hero__title {
-  /* Reduced from the prototype's clamp(42px, 5.2vw, 74px): the review badges
-     and the form's submit button have to clear the fold on a ~700px-tall
-     viewport, and the H1 was what pushed them under. */
-  font-size: clamp(34px, 4vw, 56px);
+  font-size: clamp(42px, 5.2vw, 74px);
   font-weight: var(--fw-light);
   letter-spacing: -0.02em;
-  line-height: 1.05;
-  margin: 0 0 16px;
+  line-height: 1.03;
+  margin: 0 0 22px;
   text-wrap: pretty;
 }
 
@@ -500,23 +497,23 @@
   height: 3px;
   background: var(--yz-pink);
   border-radius: 2px;
-  margin: 0 0 18px;
+  margin: 0 0 24px;
 }
 
 .ap-hero__lead {
-  font-size: 18px;
+  font-size: 21px;
   line-height: 1.5;
   color: var(--yz-grey-10);
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   max-width: 52ch;
   text-wrap: pretty;
 }
 
 .ap-hero__secondary {
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 17px;
+  line-height: 1.6;
   color: rgba(254, 254, 254, 0.8);
-  margin: 0 0 22px;
+  margin: 0 0 30px;
   max-width: 58ch;
   text-wrap: pretty;
 }
@@ -525,7 +522,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 34px;
 }
 
 .ap-badge {
@@ -535,7 +532,7 @@
 
   border: 1px solid rgba(254, 254, 254, 0.24);
   border-radius: var(--radius-pill);
-  padding: 6px 13px;
+  padding: 7px 15px;
 }
 
 .ap-badge__source {
@@ -553,15 +550,15 @@
 
 .ap-hero__strip {
   border-top: 1px solid rgba(254, 254, 254, 0.18);
-  padding-top: 20px;
+  padding-top: 26px;
 }
 
 .ap-hero__strip-label {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba(254, 254, 254, 0.8);
-  margin: 0 0 12px;
+  margin: 0 0 16px;
 }
 
 .ap-hero__strip-list {
@@ -587,7 +584,7 @@
 /* The client quote replaces the strip once a system is picked. */
 .ap-hero__quote {
   border-top: 1px solid rgba(254, 254, 254, 0.18);
-  padding-top: 20px;
+  padding-top: 26px;
 
   display: flex;
   gap: 18px;
@@ -635,12 +632,12 @@
   background: var(--yz-grey-10);
   color: var(--yz-rich-blue);
   border-radius: var(--radius-xl);
-  padding: 26px;
+  padding: 32px;
   box-shadow: 0 24px 64px rgba(9, 28, 41, 0.34);
 }
 
 .ap-form__title {
-  font-size: 22px;
+  font-size: 26px;
   font-weight: var(--fw-light);
   letter-spacing: -0.02em;
   line-height: 1.15;
@@ -649,16 +646,16 @@
 
 .ap-form__sub {
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--yz-grey-80);
-  margin: 0 0 18px;
+  margin: 0 0 24px;
 }
 
 .ap-form__fields {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
 .ap-field {
@@ -693,7 +690,7 @@
   background: var(--yz-grey-10);
   color: var(--yz-rich-blue);
 
-  padding: 13px 16px 13px 46px;
+  padding: 15px 16px 15px 48px;
 
   /* 16px stops iOS Safari zooming the page on focus. Do not reduce it. */
   font-size: 16px;
@@ -702,7 +699,7 @@
 
 .ap-field select {
   appearance: none;
-  padding: 13px 44px 13px 46px;
+  padding: 15px 44px 15px 48px;
   cursor: pointer;
 }
 
@@ -711,7 +708,7 @@
   justify-content: center;
   gap: 10px;
   font-size: 16px;
-  padding: 14px 24px;
+  padding: 15px 24px;
 }
 
 .ap-form__submit .yz-icon {
@@ -723,7 +720,7 @@
   font-size: 12px;
   line-height: 1.5;
   color: var(--yz-grey-80);
-  margin: 12px 0 0;
+  margin: 14px 0 0;
 }
 
 .ap-form__step {
