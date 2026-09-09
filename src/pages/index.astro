@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PasswordGate from '../components/PasswordGate.astro';
+import RibbonBackground from '../components/home/RibbonBackground';
+
+// The Yooz tokens are the single source of truth for the ribbon's palette:
+// the shader reads its colours back off these custom properties at runtime.
+import '../styles/yooz.css';
 
 const title = 'Nicolas Runtz';
 const description = "Nicolas Runtz's personal website.";
@@ -16,109 +21,148 @@ const personJsonLd = {
 <BaseLayout title={title} description={description}>
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600&display=swap"
+    />
   </Fragment>
 
-  <div class="gate-backdrop">
-    <PasswordGate />
+  <div class="hp">
+    <!-- Decorative, and deferred: the line and the field render and work
+         before any of this loads. -->
+    <RibbonBackground client:idle />
+
+    <main class="hp__content">
+      <p class="hp__line">Do not go gentle into that good night</p>
+      <PasswordGate />
+    </main>
   </div>
 </BaseLayout>
 
-<style>
-  .gate-backdrop {
-    min-height: 100vh;
+<style is:global>
+  .hp {
+    position: relative;
+    min-height: 100svh;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    padding: 40px 24px;
+
+    font-family: var(--font-sans);
+    color: var(--yz-rich-blue);
+    background: var(--yz-grey-10);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hp ::selection {
+    background: var(--yz-pink);
+    color: var(--yz-grey-10);
+  }
+
+  /* ── background stack ────────────────────────────────────────────────
+     Fixed and out of flow, so nothing here can shift the layout. */
+
+  .hp-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
     overflow: hidden;
+  }
 
-    position: relative;
-
+  /* Painted immediately: no flash before the canvas is ready, and the whole
+     background if WebGL never arrives. Same palette, same diagonal. */
+  .hp-bg__static {
+    position: absolute;
+    inset: 0;
     background:
-      radial-gradient(circle at 20% 20%, rgba(225, 218, 255, 0.45), transparent 28%),
-      radial-gradient(circle at 85% 80%, rgba(235, 230, 255, 0.55), transparent 30%),
-      #fafafa;
-    background-size:
-      180% 180%,
-      180% 180%,
-      auto;
+      linear-gradient(
+        115deg,
+        transparent 34%,
+        rgba(20, 53, 78, 0.9) 47%,
+        rgba(20, 53, 78, 0.72) 58%,
+        transparent 71%
+      ),
+      linear-gradient(112deg, transparent 40%, rgba(224, 24, 94, 0.5) 52%, transparent 63%),
+      linear-gradient(180deg, var(--yz-grey-20), var(--yz-grey-10));
   }
 
-  /* Cercle décoratif en haut à gauche */
-  .gate-backdrop::before {
-    content: '';
-
-    position: fixed;
-
-    width: 420px;
-    height: 420px;
-
-    border: 1px solid rgba(120, 110, 180, 0.1);
-    border-radius: 50%;
-
-    top: -230px;
-    left: -130px;
+  .hp-bg__canvas,
+  .hp-bg__fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 
-  /* Cercle décoratif en bas à droite */
-  .gate-backdrop::after {
-    content: '';
-
-    position: fixed;
-
-    width: 500px;
-    height: 500px;
-
-    border: 1px solid rgba(120, 110, 180, 0.08);
-    border-radius: 50%;
-
-    bottom: -300px;
-    right: -180px;
+  .hp-bg__fallback {
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
-  /* Petit effet dynamique : dégradés qui dérivent doucement,
-     cercles qui pulsent très légèrement. Désactivé si l'utilisateur
-     préfère un mouvement réduit. */
-  @media (prefers-reduced-motion: no-preference) {
-    .gate-backdrop {
-      animation: drift 26s ease-in-out infinite;
-    }
-
-    .gate-backdrop::before {
-      animation: pulse 14s ease-in-out infinite;
-    }
-
-    .gate-backdrop::after {
-      animation: pulse 18s ease-in-out infinite reverse;
-    }
+  /* The brand dot pattern, kept far enough back to read as texture rather
+     than noise. */
+  .hp-bg__dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(20, 53, 78, 0.16) 1px, transparent 0);
+    background-size: 6px 6px;
+    opacity: 0.34;
   }
 
-  @keyframes drift {
-    0%,
-    100% {
-      background-position:
-        20% 20%,
-        85% 80%,
-        0 0;
-    }
-    50% {
-      background-position:
-        30% 30%,
-        75% 70%,
-        0 0;
-    }
+  /* The breathing room the copy sits in. Without it the ribbon competes with
+     the line and the field loses its edge. */
+  .hp-bg__veil {
+    position: absolute;
+    inset: 0;
+    /* Fixed radii, not percentages: the copy block is a fixed width, so a
+       viewport-relative ellipse shrinks away from the text exactly on the
+       narrow screens where the ribbon is closest to it. */
+    background: radial-gradient(
+      700px 290px at 50% 50%,
+      rgba(254, 254, 254, 0.97) 0%,
+      rgba(254, 254, 254, 0.93) 45%,
+      rgba(254, 254, 254, 0.55) 75%,
+      rgba(254, 254, 254, 0) 100%
+    );
   }
 
-  @keyframes pulse {
-    0%,
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
-    50% {
-      transform: scale(1.06);
-      opacity: 0.6;
+  /* ── content ─────────────────────────────────────────────────────── */
+
+  .hp__content {
+    position: relative;
+    z-index: 1;
+
+    width: min(100%, 640px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .hp__line {
+    margin: 0;
+
+    /* Light at negative tracking is the brand's voice; a bold heading here
+       would break it. */
+    font-size: clamp(28px, 4.6vw, 52px);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.14;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--yz-rich-blue);
+  }
+
+  @media (max-width: 600px) {
+    .hp__content {
+      gap: 32px;
     }
   }
 </style>
