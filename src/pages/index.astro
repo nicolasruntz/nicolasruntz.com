@@ -46,11 +46,11 @@ const personJsonLd = {
     position: relative;
     min-height: 100svh;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: 40svh 1fr;
+    justify-items: center;
 
-    padding: 40px 24px;
+    padding: 0 24px 40px;
 
     font-family: var(--font-sans);
     color: var(--yz-rich-blue);
@@ -81,13 +81,13 @@ const personJsonLd = {
     inset: 0;
     background:
       linear-gradient(
-        115deg,
-        transparent 34%,
-        rgba(20, 53, 78, 0.9) 47%,
-        rgba(20, 53, 78, 0.72) 58%,
-        transparent 71%
+        118deg,
+        transparent 22%,
+        rgba(20, 53, 78, 0.9) 34%,
+        rgba(20, 53, 78, 0.72) 44%,
+        transparent 56%
       ),
-      linear-gradient(112deg, transparent 40%, rgba(224, 24, 94, 0.5) 52%, transparent 63%),
+      linear-gradient(115deg, transparent 28%, rgba(224, 24, 94, 0.62) 39%, transparent 49%),
       linear-gradient(180deg, var(--yz-grey-20), var(--yz-grey-10));
   }
 
@@ -100,9 +100,32 @@ const personJsonLd = {
     display: block;
   }
 
+  /* The canvas arrives over plain off-white once it has a frame to show. */
+  .hp-bg__canvas {
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  }
+
+  .hp-bg[data-ready] .hp-bg__canvas {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hp-bg__canvas {
+      transition: none;
+    }
+  }
+
   .hp-bg__fallback {
     object-fit: cover;
-    object-position: 50% 30%;
+    object-position: 50% 0%;
+  }
+
+  .hp-bg__static,
+  .hp-bg__canvas,
+  .hp-bg__fallback {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 50%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 50%);
   }
 
   /* The brand dot pattern, kept far enough back to read as texture rather
@@ -115,28 +138,13 @@ const personJsonLd = {
     opacity: 0.34;
   }
 
-  /* The breathing room the copy sits in. Without it the ribbon competes with
-     the line and the field loses its edge. */
-  .hp-bg__veil {
-    position: absolute;
-    inset: 0;
-    /* Fixed radii, not percentages: the copy block is a fixed width, so a
-       viewport-relative ellipse shrinks away from the text exactly on the
-       narrow screens where the ribbon is closest to it. */
-    background: radial-gradient(
-      700px 290px at 50% 50%,
-      rgba(254, 254, 254, 0.97) 0%,
-      rgba(254, 254, 254, 0.93) 45%,
-      rgba(254, 254, 254, 0.55) 75%,
-      rgba(254, 254, 254, 0) 100%
-    );
-  }
-
   /* ── content ─────────────────────────────────────────────────────── */
 
   .hp__content {
     position: relative;
     z-index: 1;
+    grid-row: 2;
+    align-self: center;
 
     width: min(100%, 640px);
 
