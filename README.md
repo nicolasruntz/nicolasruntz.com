@@ -67,14 +67,48 @@ ajouter une nouvelle page de contenu, il suffit d'ajouter un fichier
 
 ### Page d'accueil ("/")
 
-Un champ mot de passe centré avec bouton de validation. La vérification est
-**uniquement côté client** (dans `PasswordGate.astro`) : ce n'est pas un
-mécanisme de sécurité, juste un aiguillage simple. Si la valeur saisie est
-`docking`, redirection vers `/ap-automation-software/` ; sinon, un message
-d'erreur discret s'affiche sans rechargement de page. Sous le champ, une
-vidéo YouTube est intégrée en iframe responsive (`youtube-nocookie.com`,
-`loading="lazy"`, attribut `title`). La page porte aussi un JSON-LD de type
-`Person` (nom : Nicolas Runtz).
+Une seule phrase — « Do not go gentle into that good night » — au-dessus d'un
+champ de passphrase, sur un **ruban animé en WebGL**.
+
+**Le ruban** (`src/components/home/RibbonBackground.tsx`) est une longue
+diagonale montante à deux inflexions — le trait médian du Z de Yooz, détendu
+en une courbe continue — superposée sur deux ou trois couches pour qu'elle se
+lise comme une matière translucide et non comme un aplat. Le Rich Blue porte
+la forme ; le Pink la traverse comme une énergie plutôt que de s'y poser en
+masse. Un vertex shader déforme lentement le plan du ruban ; le fragment
+shader dessine les dégradés, les lignes directionnelles internes et la
+texture. **Toutes les couleurs sont lues à l'exécution sur les tokens de
+`yooz.css`** : la palette a une seule source de vérité et ne peut pas dériver.
+
+Performance et accessibilité :
+
+- `client:idle` — la phrase et le champ s'affichent et fonctionnent avant que
+  le canvas ne charge ; aucun décalage de mise en page (CLS mesuré à 0).
+- Device pixel ratio plafonné à 1,5 ; 30 images/s sur les machines à faible
+  nombre de cœurs, qui reçoivent aussi moins de couches.
+- Le rendu s'arrête quand l'onglet est masqué et quand le canvas sort du
+  viewport ; l'horloge repart sans à-coup.
+- `prefers-reduced-motion` : une seule image, même composition, aucune boucle.
+- Sans WebGL, `public/home/ribbon-fallback.webp` (19 Ko, chargé uniquement
+  dans ce cas) prend le relais au-dessus d'un dégradé CSS peint d'emblée.
+- Canvas `aria-hidden` et `pointer-events: none` ; le texte reste du HTML.
+- Cadrage propre au mobile — le ruban remonte au-dessus de la zone de texte
+  plutôt que d'être une réduction du desktop.
+
+**La zone de respiration** derrière la phrase et le champ est un voile blanc
+à rayons fixes (700 × 290 px), pas en pourcentages : le bloc de texte a une
+largeur fixe, donc une ellipse relative au viewport se rétracte justement sur
+les écrans étroits où le ruban en est le plus proche. Contraste mesuré du
+texte sur le fond animé : de 10:1 à 11,3:1 entre 390 px et 1440 px.
+
+**Le champ de passphrase** (`PasswordGate.astro`) est une pilule givrée sur le
+ruban, avec label flottant en CSS pur (`:placeholder-shown`, aucun script) et
+bouton circulaire. La vérification est **uniquement côté client** : ce n'est
+pas un mécanisme de sécurité, juste un aiguillage. La valeur attendue est
+`lazarus` (insensible à la casse et aux espaces) et redirige vers
+`/ap-automation-software/`. **En cas d'erreur, rien ne s'affiche** : pas de
+message, pas de changement de couleur, pas de secousse — le champ se vide et
+attend. La page porte aussi un JSON-LD de type `Person`.
 
 ### Page "/ap-automation-software/"
 
