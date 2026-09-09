@@ -103,7 +103,9 @@ export interface Personalisation {
   /** Appended inline to the H1. */
   titleSuffix: string;
   heroEyebrow: string;
-  heroSub: string;
+  /** Null with nothing picked: there is no generic version of this line worth
+   *  showing, so the hero goes straight from the H1 to the fixed paragraph. */
+  heroSub: string | null;
   /** The wordmark strip shows only while no system is picked. */
   showStrip: boolean;
   stripLabel: string;
@@ -404,7 +406,7 @@ export function personalise(industryKey: string, erpKey: string): Personalisatio
       ? ind.sub
       : erp
         ? `Yooz plugs straight into ${erp.label} - ${erp.note} Vendors, GL, dimensions, POs and receipts sync both ways, and approved invoices post back automatically.`
-        : 'Whatever you run AP on, Yooz plugs straight into it - 250+ native ERP and DMS connectors, two-way sync, automatic posting back. Industry-agnostic by design, configured around your entities and your approval rules.',
+        : null,
     showStrip: !erp,
     stripLabel: erp ? `Native two-way sync with ${erp.label}` : strip.label,
     heroErpLogos: erp

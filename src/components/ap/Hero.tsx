@@ -72,7 +72,8 @@ export default function Hero({
           </h1>
           <div class="ap-hero__rule" />
 
-          <p class="ap-hero__lead">{p.heroSub}</p>
+          {/* Only present once a selection makes it specific. */}
+          {p.heroSub && <p class="ap-hero__lead">{p.heroSub}</p>}
           <p class="ap-hero__secondary">
             Capture, code, match, approve, pay and archive every invoice in one platform - and cut
             AP processing time and cost by up to 80%.
