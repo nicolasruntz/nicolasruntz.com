@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Defaults to the current URL; override for canonical edge cases. */
+  canonicalURL?: URL | string;
+  noindex?: boolean;
+}
+
+const { title, description, canonicalURL = Astro.url, noindex = false } = Astro.props;
+
+const canonical = new URL(canonicalURL, Astro.site);
+const siteName = 'Nicolas Runtz';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-white text-slate-900 antialiased">
+    <slot />
+  </body>
+</html>

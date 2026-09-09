@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /ap-automation-software/
+
+Sitemap: https://nicolasruntz.com/sitemap-index.xml
