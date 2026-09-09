@@ -1,19 +1,14 @@
 ---
 import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
 import '../../styles/yooz.css';
+import '../../styles/ap-automation.css';
 
-import Nav from '../../components/yooz/Nav.astro';
-import Hero from '../../components/yooz/Hero.astro';
-import ProofBar from '../../components/yooz/ProofBar.astro';
-import FlowSection from '../../components/yooz/FlowSection.astro';
-import CalloutStrips from '../../components/yooz/CalloutStrips.astro';
-import ScoreSection from '../../components/yooz/ScoreSection.astro';
-import CTASection from '../../components/yooz/CTASection.astro';
-import Footer from '../../components/yooz/Footer.astro';
+import ApLanding from '../../components/ap/ApLanding';
 
-// The page's metadata still comes from the content collection; the layout
-// itself is composed from the design-system sections below.
+// Metadata still comes from the content collection; the page itself is the
+// personalised landing page island below.
 const entry = await getEntry('pages', 'ap-automation-software');
 if (!entry) {
   throw new Error('Missing content entry: pages/ap-automation-software');
@@ -36,38 +31,48 @@ const { title, description, noindex } = entry.data;
     />
   </Fragment>
 
-  <div class="yz-page" id="top">
-    <Nav />
-    <main>
-      <Hero />
-      <ProofBar />
-      <FlowSection />
-      <CalloutStrips />
-      <ScoreSection />
-      <CTASection />
-    </main>
-    <Footer />
-  </div>
+  <!-- client:load rather than client:idle: the pickers and the demo CTA are
+       what this page exists for, and it is built for paid traffic. -->
+  <ApLanding client:load />
 </BaseLayout>
 
 <style is:global>
   /* The design system owns this page end to end: Noto Sans throughout, Rich
      Blue on the brand white (never pure #FFFFFF). */
-  .yz-page {
+  .ap-root {
     font-family: var(--font-sans);
     color: var(--text);
     background: var(--background);
     -webkit-font-smoothing: antialiased;
   }
 
-  .yz-page ::selection {
+  .ap-root ::selection {
     background: var(--yz-pink);
     color: var(--yz-grey-10);
   }
 
-  .yz-page :focus-visible {
-    outline: 2px solid var(--yz-rich-blue);
-    outline-offset: 2px;
+  /* Focus: the one sanctioned place pink exceeds its 10% budget. */
+  .ap-root input:focus-visible,
+  .ap-root select:focus-visible,
+  .ap-root button:focus-visible,
+  .ap-modal input:focus-visible,
+  .ap-modal select:focus-visible,
+  .ap-modal button:focus-visible {
+    outline: none;
+    border-color: var(--yz-rich-blue);
+    box-shadow: 0 0 0 3px rgba(224, 24, 94, 0.28);
+  }
+
+  /* Prose links only. Anchors styled as buttons carry their own colours, and
+     this rule outranks them on specificity — which painted "Get my pricing"
+     pink on a pink pill. */
+  .ap-root a:not(.ap-btn-pink) {
+    color: var(--yz-pink);
+    text-decoration: none;
+  }
+
+  .ap-root a:not(.ap-btn-pink):hover {
+    color: var(--yz-pink-hover);
   }
 
   html {

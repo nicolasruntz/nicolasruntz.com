@@ -13,8 +13,10 @@ déployé sur Cloudflare (Pages/Workers).
 - **Astro Content Collections** pour le contenu Markdown/MDX
 - **@astrojs/mdx** pour écrire du contenu en MDX
 - **@astrojs/sitemap** pour générer `sitemap-index.xml`
-- Composants `.astro` uniquement ; le seul JavaScript client est le script
-  minimal du champ mot de passe (`PasswordGate.astro`)
+- **@astrojs/preact** pour la seule partie interactive du site : la landing
+  page `/ap-automation-software/`, dont la personnalisation à l'exécution
+  demande un vrai état client. Partout ailleurs, composants `.astro`
+  uniquement (le champ mot de passe garde son script minimal).
 
 ## Structure du projet
 
@@ -30,13 +32,18 @@ src/
   components/
     PasswordGate.astro        # champ mot de passe + vérification client
     YouTubeEmbed.astro        # iframe YouTube responsive, chargement différé
-    yooz/                     # sections et primitives du design system Yooz
-      Nav.astro  Hero.astro  ProofBar.astro  FlowSection.astro
-      CalloutStrips.astro  ScoreSection.astro  CTASection.astro
-      Footer.astro  Button.astro  Icon.astro  ZFrame.astro  Wordmark.astro
+    ap/                       # la landing page AP automation (Preact)
+      ApLanding.tsx             # racine de l'îlot : état + composition
+      data.ts                   # tables industries / ERP, strips, cas clients
+      personalisation.ts        # dérive toutes les surfaces personnalisées
+      hooks.ts                  # pause des animations, parallaxe, section lue
+      Header.tsx  Hero.tsx  DemoForm.tsx  Features.tsx
+      FeatureVisuals.tsx  Sections.tsx  SidePanel.tsx
+      DemoModal.tsx  Icon.tsx
   styles/
     global.css                # entrée Tailwind
     yooz.css                  # tokens du design system Yooz
+    ap-automation.css         # mise en page + 36 keyframes de la landing
   pages/
     index.astro                # page d'accueil "/"
     ap-automation-software/
@@ -71,30 +78,59 @@ vidéo YouTube est intégrée en iframe responsive (`youtube-nocookie.com`,
 
 ### Page "/ap-automation-software/"
 
-Landing page « Lean Financial Operations » construite avec le **Yooz Design
-System** (refonte de marque de juillet 2025) : nav collante, hero avec le
-cadre en Z et le motif de points, barre de preuves chiffrées, les six étapes
-du purchase-to-pay, panneaux dégradés + bandeau Rich Blue, section Yooz
-Score (jauge + barres de progression), CTA et footer.
+Landing page de conversion pour le marché nord-américain (US + Canada,
+anglais), pensée pour du trafic Google Ads. Un seul objectif : la demande de
+démo. Sa particularité est la **personnalisation à l'exécution** — le
+visiteur choisit une industrie et/ou un ERP/DMS dans les deux sélecteurs du
+header, et une quinzaine de surfaces se réécrivent : le H1, le chapeau et le
+sous-titre du hero, la bande de wordmarks ERP (remplacée par une citation
+client dès qu'un système est choisi), une carte feature entière, deux
+questions et deux réponses de la FAQ, le titre des cas clients, le panneau
+latéral contextuel et le formulaire de démo.
 
-- Les tokens (couleurs, typographie, espacements, élévation, motion,
-  motifs) vivent dans `src/styles/yooz.css`, importé par la seule route qui
-  en a besoin ; le reste du site garde Tailwind.
-- Chaque section est un composant `.astro` avec ses styles scopés dans
-  `src/components/yooz/`. Aucun JavaScript client : les états `:hover`,
-  `:focus-visible` et `:active` du kit React d'origine sont rendus en CSS.
+Rien n'est derrière un login, rien n'est appelé en réseau : toute la
+personnalisation vient de deux tables livrées avec la page
+(`src/components/ap/data.ts`), et `personalise()` en dérive chaque surface.
+
+- **Un seul îlot Preact** (`ApLanding.tsx`, `client:load`). La sélection
+  touche le header, le hero, les features, la FAQ et le panneau à la fois :
+  découper en plusieurs îlots reviendrait à partager le même état entre eux
+  sans rien y gagner. Astro pré-rend l'îlot en HTML statique complet ;
+  l'hydratation n'ajoute que l'interaction.
+- Les tokens vivent dans `src/styles/yooz.css` ; la mise en page et les 36
+  `@keyframes` dans `src/styles/ap-automation.css`. Les deux ne sont importés
+  que par cette route ; le reste du site garde Tailwind.
+- **Les animations hors écran sont mises en pause.** Chaque bloc animé porte
+  `data-yz-anim` ; un `IntersectionObserver` unique (marge 160px) pose
+  `data-yz-paused`, que la feuille de style traduit en
+  `animation-play-state: paused`. Sept conteneurs portent 31 animations
+  infinies — sans ce mécanisme elles repeignent en continu, ce qui coûte cher
+  en INP sur mobile milieu de gamme, sur une page payée au clic.
+- Le panneau latéral est `position: fixed`, jamais dans le flux, et suit la
+  section lue pour adapter son message et son CTA. Sous 1030px il se réduit à
+  un lanceur épinglé en bas à droite.
+- La parallaxe du hero est coupée sur pointeur grossier, sous 1024px et en
+  `prefers-reduced-motion`.
+- Une campagne peut pré-filtrer la page par URL :
+  `?industry=auto&erp=intacct`. Les valeurs sont validées contre les tables,
+  donc un paramètre erroné retombe sur la page non personnalisée.
 - Noto Sans (300/400/600) et Material Symbols Outlined sont chargés depuis
   Google Fonts, comme le prescrit le design system.
-- Deux écarts assumés faute d'assets fournis avec le kit : le logo est un
-  **wordmark typographique** (`Wordmark.astro`) et non le vrai SVG, et le
-  `ZFrame` n'affiche que le Z en dégradé — le kit y met une annotation
-  « cut-out hero photograph goes here », qui est un repère d'auteur et non
-  un élément de design. Passer `src` au `ZFrame` dès qu'une photo détourée
-  et étalonnée existe.
 
 Cette page porte une balise `<meta name="robots" content="noindex, nofollow">`
 et est exclue du sitemap (filtre dans `astro.config.mjs`) ainsi que du
 `robots.txt`.
+
+#### Reste à faire avant du trafic payant
+
+Le formulaire ne poste nulle part : la temporisation entre les étapes tient
+lieu d'aller-retour réseau. Manquent aussi l'attribution Ads (champs cachés
+UTM / gclid, `dataLayer`), le lien politique de confidentialité et la case de
+consentement, et les images officielles des badges G2 / Capterra — les badges
+actuels sont typographiques et leurs millésimes sont à vérifier. Les deux
+photos des cas clients sont des images de stock étalonnées à la charte,
+placées au-dessus du nom d'une personne réelle : la licence et cette
+juxtaposition sont à valider avant mise en ligne.
 
 ## Commandes
 
